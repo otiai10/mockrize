@@ -9,6 +9,9 @@ try {
 (async () => {
     const app = await mockrize({
         rootDir: './root',
+        constants: {
+            token: 'foo',
+        },
     });
     app.listen(4001)
 })();

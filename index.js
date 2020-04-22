@@ -2,8 +2,16 @@ const express = require('express');
 const path = require('path');
 const Generator = require('./generator');
 
+const ConstantsMiddleware = (constants) => {
+    return (req, res, next) => {
+        req.Mockrize = {const: constants};
+        next();
+    };
+};
+
 const Router = async (opt) => {
     const router = express.Router();
+    router.use(ConstantsMiddleware(opt.constants || {}));
     const rootDir = path.isAbsolute(opt.rootDir) ?
         opt.rootDir : path.join(process.cwd(), opt.rootDir);
     const generator = new Generator(rootDir);
