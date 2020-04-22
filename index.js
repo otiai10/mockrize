@@ -18,6 +18,7 @@ const Router = async (opt) => {
 const App = async (opt) => {
     const app = express();
     const r = await Router(opt);
+    app.use(express.json());
     app.use('/', r);
     return app;
 };

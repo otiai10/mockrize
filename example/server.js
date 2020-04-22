@@ -1,8 +1,9 @@
 var mockrize;
 try {
-    mockrize = require('mockrize');
-} catch (e) {
     mockrize = require('../');
+    console.log("mockrize imported from relative path");
+} catch (e) {
+    mockrize = require('mockrize');
 }
 
 (async () => {
