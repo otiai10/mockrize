@@ -1,6 +1,6 @@
 {
   "name": "mockrize",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Create REST API mock server from based on your repository",
   "main": "index.js",
   "directories": {
