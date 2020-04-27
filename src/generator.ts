@@ -1,13 +1,16 @@
-const fs = require('fs').promises;
-const path = require('path');
+import path from 'path';
+import { promises as fs } from 'fs';
 
-class Generator {
+import Method from "./method";
+import Endpoint from "./endpoint";
+import JSONEndpoint from './endpoint/json';
 
-    constructor(rootDir) {
-        this.rootDir = rootDir;
+export default class Generator {
+
+    constructor(private rootDir: string) {
     }
 
-    /* private */generateForJavaScriptImportable(fpath) {
+    private generateForJavaScriptImportable(fpath: string): Endpoint | undefined {
         const parsed = path.parse(fpath);
         const restdir = path.dirname(fpath.replace(this.rootDir, ''));
         const restpath = (parsed.name == 'index') ? restdir : path.join(restdir, parsed.name);
@@ -15,39 +18,39 @@ class Generator {
         if (entry instanceof Function) {
             switch ((entry.__http_method || '').toUpperCase()) {
             case 'GET':
-                return { method: 'get', path: restpath, handler: entry }
+                return new Endpoint(Method.GET, restpath, entry);
             case 'POST':
-                return { method: 'post', path: restpath, handler: entry }
+                return new Endpoint(Method.POST, restpath, entry);
             }
         } else if (entry.constructor === Object) {
-            return { method: 'get', path: restpath, handler: (req, res) => res.json(entry) }
+            return new JSONEndpoint(Method.GET, restpath, entry);
         }
 
     }
 
-    /* private */async walk(dir) {
+    private async walk(dir: string): Promise<string[]> {
         let files = await fs.readdir(dir);
-        files = await Promise.all(files.map(async file => {
+        let contents = await Promise.all(files.map(async file => {
             const filePath = path.join(dir, file);
             const stats = await fs.stat(filePath);
             if (stats.isDirectory()) return this.walk(filePath);
-            else if(stats.isFile()) return filePath;
+            if (stats.isFile()) return [filePath];
+            return [];
         }));
-        return files.reduce((all, folderContents) => all.concat(folderContents), []);
+        return contents.reduce((all, content) => all.concat(content), []);
     }
 
-    // TODO: Support Swagger
-    // TODO: Make it friendly page
-    /* private */generateIndexHandler(endpoints) {
+    private generateIndexHandler(endpoints: Endpoint[]) {
         return {
-            method: 'get', path: '/__index__',
+            method: Method.GET,
+            path: '/__index__',
             handler: (req, res) => {
                 res.send(endpoints.map(e => `${e.method.toUpperCase()}\t${e.path}`).join('\n'));
             },
-        };
+        } as Endpoint;
     }
 
-    /* public */async generate() {
+    public async generate(): Promise<Endpoint[]> {
         const fileEntries = await this.walk(this.rootDir);
         const endpoints = fileEntries.map(fpath => {
             const ext = path.extname(fpath);
@@ -56,10 +59,8 @@ class Generator {
             case '.json':
                 return this.generateForJavaScriptImportable(fpath);
             }
-        });
+        }).filter(e => !!e) as Endpoint[];
         endpoints.push(this.generateIndexHandler(endpoints));
         return endpoints;
     }
 }
-
-module.exports = Generator;

@@ -1,6 +1,6 @@
 var mockrize;
 try {
-    mockrize = require('../');
+    mockrize = require('../lib');
     console.log("mockrize imported from relative path");
 } catch (e) {
     mockrize = require('mockrize');
