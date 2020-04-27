@@ -2,6 +2,7 @@
 
 Create RESTful API mock server easily, according to directory structures of your repository.
 
+[![GitHub Action](https://github.com/otiai10/mockrize/workflows/Node.js%20CI/badge.svg)](https://github.com/otiai10/mockrize/actions)
 [![codecov](https://codecov.io/gh/otiai10/mockrize/branch/master/graph/badge.svg)](https://codecov.io/gh/otiai10/mockrize)
 
 # Example
