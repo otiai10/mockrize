@@ -12,12 +12,15 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
+    "@types/jest": "^25.2.1",
     "@types/node": "^13.13.2",
+    "jest": "^25.4.0",
+    "ts-jest": "^25.4.0",
     "typescript": "^3.8.3"
   },
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -28,5 +31,22 @@
   "bugs": {
     "url": "https://github.com/otiai10/mockrize/issues"
   },
-  "homepage": "https://github.com/otiai10/mockrize#readme"
+  "homepage": "https://github.com/otiai10/mockrize#readme",
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "tsconfig.json"
+      }
+    },
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ]
+  }
 }
