@@ -1,8 +1,11 @@
 import App from "../src/index";
+import supertest from "supertest";
 
-describe("hoge", () => {
-  it("should be hoge", async (done) => {
-    await App({ rootDir: "./example/root" });
-    done();
+describe("App", () => {
+  it("should create express app", async (done) => {
+    const app = await App({ rootDir: "./example/root" });
+    supertest(app)
+      .get('/foo/baa')
+      .expect(200, done);
   });
 })

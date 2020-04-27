@@ -2,6 +2,8 @@
 
 Create RESTful API mock server easily, according to directory structures of your repository.
 
+[![codecov](https://codecov.io/gh/otiai10/mockrize/branch/master/graph/badge.svg)](https://codecov.io/gh/otiai10/mockrize)
+
 # Example
 
 Given you have this structure:
