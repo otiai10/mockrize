@@ -32,3 +32,5 @@ export default async function App(opt: Options) {
     app.use('/', r);
     return app;
 };
+
+module.exports = App;

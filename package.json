@@ -21,7 +21,8 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "build": "tsc -p ./tsconfig.json",
+    "build": "rm -rf lib && tsc -p ./tsconfig.json",
+    "test:example": "NODE_ENV=test node ./example/server.js",
     "test": "jest --coverage"
   },
   "repository": {

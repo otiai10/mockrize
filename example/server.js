@@ -1,3 +1,4 @@
+var path = require('path');
 var mockrize;
 try {
     mockrize = require('../lib');
@@ -8,10 +9,12 @@ try {
 
 (async () => {
     const app = await mockrize({
-        rootDir: './root',
+        rootDir: path.join(__dirname, 'root'),
         constants: {
             token: 'foo',
         },
     });
-    app.listen(4001)
+    if (process.env.NODE_ENV !== "test") {
+        app.listen(4001)
+    }
 })();
