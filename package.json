@@ -23,7 +23,8 @@
   "scripts": {
     "build": "rm -rf lib && tsc -p ./tsconfig.json",
     "test:example": "NODE_ENV=test node ./example/server.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test:all": "npm run test && npm run test:example"
   },
   "repository": {
     "type": "git",
