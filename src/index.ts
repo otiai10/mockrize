@@ -22,12 +22,15 @@ export async function Router(opt: Options): Promise<express.Router> {
     router.use(ConstantsMiddleware(opt.constants || {}));
     const rootDir = path.isAbsolute(opt.rootDir) ?
         opt.rootDir : path.join(process.cwd(), opt.rootDir);
+    const out = opt.out || process.stdout;
     const generator = new Generator(rootDir);
     const endpoints = await generator.generate();
+    const list: string[] = [];
     endpoints.map(e => {
-        console.log(e.method.toUpperCase(), e.path);
+        list.push(`${e.method.toUpperCase()}\t${e.path}`)
         router[e.method](e.path, e.handler as express.Handler);
     });
+    out.write(list.join("\n"));
     return router;
 }
 
