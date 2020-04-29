@@ -15,6 +15,9 @@
     "@types/jest": "^25.2.1",
     "@types/node": "^13.13.2",
     "@types/supertest": "^2.0.8",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "eslint": "^6.8.0",
     "jest": "^25.4.0",
     "supertest": "^4.0.2",
     "ts-jest": "^25.4.0",
@@ -22,6 +25,7 @@
   },
   "scripts": {
     "build": "rm -rf lib && tsc -p ./tsconfig.json",
+    "lint": "eslint . --ext .ts",
     "test:example": "NODE_ENV=test node ./example/server.js",
     "test": "jest --coverage",
     "test:all": "npm run test && npm run test:example"
