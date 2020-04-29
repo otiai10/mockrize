@@ -10,6 +10,7 @@ export default class Generator {
     constructor(private rootDir: string) {
     }
 
+    /* eslint-disable @typescript-eslint/no-var-requires */
     private generateForJavaScriptImportable(fpath: string): Endpoint | undefined {
         const parsed = path.parse(fpath);
         const restdir = path.dirname(fpath.replace(this.rootDir, ''));
@@ -29,8 +30,8 @@ export default class Generator {
     }
 
     private async walk(dir: string): Promise<string[]> {
-        let files = await fs.readdir(dir);
-        let contents = await Promise.all(files.map(async file => {
+        const files = await fs.readdir(dir);
+        const contents = await Promise.all(files.map(async file => {
             const filePath = path.join(dir, file);
             const stats = await fs.stat(filePath);
             if (stats.isDirectory()) return this.walk(filePath);
@@ -40,7 +41,7 @@ export default class Generator {
         return contents.reduce((all, content) => all.concat(content), []);
     }
 
-    private generateIndexHandler(endpoints: Endpoint[]) {
+    private generateIndexHandler(endpoints: Endpoint[]): Endpoint {
         return {
             method: Method.GET,
             path: '/__index__',

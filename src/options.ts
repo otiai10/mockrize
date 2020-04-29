@@ -1,5 +1,5 @@
 
 export default interface Options {
-  rootDir: string,
-  constants?: {[key: string]: string | number},
-};
+  rootDir: string;
+  constants?: {[key: string]: string | number};
+}
