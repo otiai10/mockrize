@@ -1,7 +1,7 @@
 module.exports = (req, res) => {
     res.json({
-        message: `Hello, ${req.params.name}`,
-        const: req.Mockrize.const,
+        "status": "success",
+        "body": req.body,
     });
 };
 module.exports.__http_method = 'GET';

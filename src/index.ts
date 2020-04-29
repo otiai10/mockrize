@@ -17,6 +17,7 @@ function ConstantsMiddleware(constants: { [key: string]: string | number } = {})
     };
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export async function Router(opt: Options): Promise<express.Router> {
     const router = express.Router();
     router.use(ConstantsMiddleware(opt.constants || {}));
@@ -27,8 +28,8 @@ export async function Router(opt: Options): Promise<express.Router> {
     const endpoints = await generator.generate();
     const list: string[] = [];
     endpoints.map(e => {
-        list.push(`${e.method.toUpperCase()}\t${e.path}`)
-        router[e.method](e.path, e.handler as express.Handler);
+        list.push(`${e.method.toUpperCase()}\t${e.path}`);
+        (router as any)[e.method.toLowerCase()](e.path, e.handler as express.Handler);
     });
     out.write(list.join("\n"));
     return router;

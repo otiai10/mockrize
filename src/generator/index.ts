@@ -1,32 +1,14 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 
-import Method from "./method";
-import Endpoint from "./endpoint";
-import JSONEndpoint from './endpoint/json';
+import Method from "../method";
+import Endpoint from "../endpoint";
+import JSONEndpoint from '../endpoint/json';
+import JavaScriptEndpoint from '../endpoint/javascript';
 
 export default class Generator {
 
     constructor(private rootDir: string) {
-    }
-
-    /* eslint-disable @typescript-eslint/no-var-requires */
-    private generateForJavaScriptImportable(fpath: string): Endpoint | undefined {
-        const parsed = path.parse(fpath);
-        const restdir = path.dirname(fpath.replace(this.rootDir, ''));
-        const restpath = (parsed.name == 'index') ? restdir : path.join(restdir, parsed.name);
-        const entry = require(fpath);
-        if (entry instanceof Function) {
-            switch ((entry.__http_method || '').toUpperCase()) {
-            case 'GET':
-                return new Endpoint(Method.GET, restpath, entry);
-            case 'POST':
-                return new Endpoint(Method.POST, restpath, entry);
-            }
-        } else if (entry.constructor === Object) {
-            return new JSONEndpoint(Method.GET, restpath, entry);
-        }
-
     }
 
     private async walk(dir: string): Promise<string[]> {
@@ -48,6 +30,7 @@ export default class Generator {
             handler: (req, res) => {
                 res.send(endpoints.map(e => `${e.method.toUpperCase()}\t${e.path}`).join('\n'));
             },
+            isValid: () => { return true; },
         } as Endpoint;
     }
 
@@ -57,10 +40,11 @@ export default class Generator {
             const ext = path.extname(fpath);
             switch (ext) {
             case '.js':
+                return new JavaScriptEndpoint(fpath, this.rootDir);
             case '.json':
-                return this.generateForJavaScriptImportable(fpath);
+                return new JSONEndpoint(fpath, this.rootDir);
             }
-        }).filter(e => !!e) as Endpoint[];
+        }).filter(e => (!!e && e.isValid())) as Endpoint[];
         endpoints.push(this.generateIndexHandler(endpoints));
         return endpoints;
     }

@@ -1,9 +1,13 @@
 import Endpoint from ".";
 import Method from "../method";
+import path from "path";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-var-requires */
 export default class JSONEndpoint extends Endpoint {
-  constructor(method: Method, path: string, dict: Record<string, any>) {
-    super(method, path, (req, res) => res.json(dict));
+  constructor(fpath: string, rootDir: string) {
+    const parsed = path.parse(fpath);
+    const restdir = path.dirname(fpath.replace(rootDir, ''));
+    const restpath = (parsed.name == 'index') ? restdir : path.join(restdir, parsed.name);
+    super(Method.GET, restpath, (req, res) => res.json(require(fpath)));
   }
 }

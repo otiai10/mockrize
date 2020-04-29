@@ -9,6 +9,7 @@ enum Method {
   // OPTIONS = 'options',
   // TRACE = 'trace',
   // PATCH = 'patch',
+  UNDEFINED = '__undefined__',
 }
 
 export default Method;

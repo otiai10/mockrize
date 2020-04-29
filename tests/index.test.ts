@@ -9,12 +9,19 @@ describe("App", () => {
     expect(out.toString().split("\n")).toStrictEqual([
       "GET	/foo/baa",
       "GET	/hello/:name",
-      "POST	/hello/:name/update",
+      "GET	/users/:id",
+      "DELETE	/users",
+      "GET	/users",
+      "POST	/users",
+      "PUT	/users",
       "GET	/__index__"
     ]);
     await supertest(app)
       .get('/foo/baa')
       .expect(200);
+    await supertest(app)
+      .get('/not-found')
+      .expect(404);
     done();
   });
 })
