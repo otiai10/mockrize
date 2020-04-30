@@ -7,6 +7,7 @@ describe("App", () => {
     const out = new Stream();
     const app = await App({ rootDir: "./example/root", out });
     expect(out.toString().split("\n")).toStrictEqual([
+      "PUT	/foo",
       "GET	/foo/baa",
       "GET	/hello/:name",
       "GET	/users/:id",
