@@ -25,9 +25,9 @@ export default class Generator {
 
     private generateIndexHandler(endpoints: Endpoint[]): Endpoint {
         return {
-            method: Method.GET,
-            path: '/__index__',
+            method: Method.GET, path: '/',
             handler: (req, res) => {
+                // TODO: Use template engine
                 res.send(endpoints.map(e => `${e.method.toUpperCase()}\t${e.path}`).join('\n'));
             },
             isValid: () => { return true; },

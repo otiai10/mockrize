@@ -15,7 +15,7 @@ describe("App", () => {
       "GET	/users",
       "POST	/users",
       "PUT	/users",
-      "GET	/__index__"
+      "GET	/"
     ]);
     await supertest(app)
       .get('/foo/baa')

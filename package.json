@@ -26,6 +26,7 @@
   "scripts": {
     "build": "rm -rf lib && tsc -p ./tsconfig.json",
     "lint": "eslint . --ext .ts",
+    "example": "npm run build && node ./example/server.js",
     "test:example": "NODE_ENV=test node ./example/server.js",
     "test": "jest --coverage",
     "test:all": "npm run test && npm run test:example"
