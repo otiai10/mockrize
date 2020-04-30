@@ -38,6 +38,8 @@ export async function Router(opt: Options): Promise<express.Router> {
 export default async function App(opt: Options): Promise<express.Application> {
     const app = express();
     const r = await Router(opt);
+    app.set('view engine', 'pug');
+    app.set('views', path.join(__dirname, '/views'));
     app.use(express.json());
     app.use('/', r);
     return app;

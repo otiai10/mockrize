@@ -27,8 +27,7 @@ export default class Generator {
         return {
             method: Method.GET, path: '/',
             handler: (req, res) => {
-                // TODO: Use template engine
-                res.send(endpoints.map(e => `${e.method.toUpperCase()}\t${e.path}`).join('\n'));
+                res.render('index', { endpoints });
             },
             isValid: () => { return true; },
         } as Endpoint;

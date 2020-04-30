@@ -8,7 +8,8 @@
     "example": "example"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pug": "^2.0.4"
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
@@ -24,7 +25,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "build": "rm -rf lib && tsc -p ./tsconfig.json",
+    "build": "rm -rf lib && tsc -p ./tsconfig.json && cp -r src/views lib/views",
     "lint": "eslint . --ext .ts",
     "example": "npm run build && node ./example/server.js",
     "test:example": "NODE_ENV=test node ./example/server.js",

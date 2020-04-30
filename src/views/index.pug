@@ -1,0 +1,30 @@
+doctype
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="author", content="otiai10")
+    meta(property="og:title", content="Mock API")
+    meta(property="og:type", content="website")
+    title Mock API
+    //- link(rel='stylesheet', href="css/style.css")
+    meta(
+        name="viewport",
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    )
+    link(
+        rel="stylesheet",
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css",
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh",
+        crossorigin="anonymous"
+    )
+  body
+    div.container
+      h1=foo
+      div
+        each endpoint in endpoints
+            div.alert.alert-secondary(role="alert")
+                div.row
+                    div.col-2
+                        b=endpoint.method.toUpperCase()
+                    div.col-10
+                        span=endpoint.path
