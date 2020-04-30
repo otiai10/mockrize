@@ -1,0 +1,18 @@
+case endpoint.method.toUpperCase()
+    when 'GET'
+        - var alert = "alert-primary"
+    when 'POST'
+        - var alert = "alert-success"
+    when 'PUT'
+        - var alert = "alert-warning"
+    when 'DELETE'
+        - var alert = "alert-danger"
+    default
+        - var alert = "alert-secondary"
+
+div.alert(role="alert", class=alert)
+    div.row
+        div.col-2
+            b=endpoint.method.toUpperCase()
+        div.col-10
+            span=endpoint.path
