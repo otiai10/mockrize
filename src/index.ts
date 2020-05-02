@@ -3,6 +3,8 @@ import path from 'path';
 
 import Generator from './generator';
 import Options from './options';
+import { ensureConfig } from './config';
+import { repository } from './repository';
 
 export interface MockrizedRequest extends express.Request {
     Mockrize: {
@@ -25,7 +27,8 @@ export async function Router(opt: Options): Promise<express.Router> {
         opt.rootDir : path.join(process.cwd(), opt.rootDir);
     const out = opt.out || process.stdout;
     const generator = new Generator(rootDir);
-    const endpoints = await generator.generate();
+    const repo = repository(opt.config?.repository);
+    const endpoints = await generator.generate(repo);
     const list: string[] = [];
     endpoints.map(e => {
         list.push(`${e.method.toUpperCase()}\t${e.path}`);
@@ -37,6 +40,7 @@ export async function Router(opt: Options): Promise<express.Router> {
 
 export default async function App(opt: Options): Promise<express.Application> {
     const app = express();
+    opt.config = ensureConfig(opt.config);
     const r = await Router(opt);
     app.set('view engine', 'pug');
     app.set('views', path.join(__dirname, '/views'));

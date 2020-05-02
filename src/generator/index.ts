@@ -5,6 +5,7 @@ import Method from "../method";
 import Endpoint from "../endpoint";
 import JSONEndpoint from '../endpoint/json';
 import JavaScriptEndpoint from '../endpoint/javascript';
+import Repository from '../repository';
 
 export default class Generator {
 
@@ -23,17 +24,17 @@ export default class Generator {
         return contents.reduce((all, content) => all.concat(content), []);
     }
 
-    private generateIndexHandler(endpoints: Endpoint[]): Endpoint {
+    private generateIndexHandler(endpoints: Endpoint[], repository?: Repository): Endpoint {
         return {
-            method: Method.GET, path: '/',
+            method: Method.GET, path: '/', file: '/',
             handler: (req, res) => {
-                res.render('index', { endpoints });
+                res.render('index', { endpoints, repository });
             },
             isValid: () => { return true; },
         } as Endpoint;
     }
 
-    public async generate(): Promise<Endpoint[]> {
+    public async generate(repository?: Repository): Promise<Endpoint[]> {
         const fileEntries = await this.walk(this.rootDir);
         const endpoints = fileEntries.map(fpath => {
             const ext = path.extname(fpath);
@@ -44,7 +45,7 @@ export default class Generator {
                 return new JSONEndpoint(fpath, this.rootDir);
             }
         }).filter(e => (!!e && e.isValid())) as Endpoint[];
-        endpoints.push(this.generateIndexHandler(endpoints));
+        endpoints.push(this.generateIndexHandler(endpoints, repository));
         return endpoints;
     }
 }

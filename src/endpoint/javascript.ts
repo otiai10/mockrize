@@ -7,25 +7,26 @@ export default class JavaScriptEndpoint extends Endpoint {
     constructor(fpath: string, rootDir: string) {
         const parsed = path.parse(fpath);
         const restdir = path.dirname(fpath.replace(rootDir, ''));
+        const defpath = path.join(restdir, parsed.base);
         const entry = require(fpath);
         switch (parsed.name.toLowerCase()) {
         case 'index':
-            super((entry.__http_method || Method.GET).toUpperCase(), restdir, entry);
+            super((entry.__http_method || Method.GET).toUpperCase(), restdir, defpath, entry);
             break;
         case '_get':
-            super(Method.GET, restdir, entry);
+            super(Method.GET, restdir, defpath, entry);
             break;
         case '_post':
-            super(Method.POST, restdir, entry);
+            super(Method.POST, restdir, defpath, entry);
             break;
         case '_delete':
-            super(Method.DELETE, restdir, entry);
+            super(Method.DELETE, restdir, defpath, entry);
             break;
         case '_put':
-            super(Method.PUT, restdir, entry);
+            super(Method.PUT, restdir, defpath, entry);
             break;
         default:
-            super(Method.UNDEFINED, restdir, () => { /* */ });
+            super(Method.GET, restdir, defpath, entry);
         }
     }
 }

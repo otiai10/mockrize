@@ -16,3 +16,7 @@ div.alert(role="alert", class=alert)
             b=endpoint.method.toUpperCase()
         div.col-10
             span=endpoint.path
+    if repository
+        div(data-raw-url=repository.rawURL(endpoint.file), onclick="getRawContent.bind(this)()")="View definition"
+        div
+            a(href=repository.editorURL(endpoint.file), target="_blank")="Go to definition"

@@ -6,6 +6,7 @@ export default class Endpoint {
   constructor(
     public method: Method,
     public path: string,
+    public file: string,
     public handler?: express.Handler
   ) {
   }
