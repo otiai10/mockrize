@@ -25,5 +25,10 @@ html(lang="en")
         each endpoint in endpoints
           unless (endpoint.path == "/")
             include includes/endpoint.pug
+
+      footer.blockquote-footer
+        span Powered by #[cite(title="Mockrize") Mockrize Framework].
+        span Check on #[a(href="https://github.com/otiai10/mockrize")="GitHub"].
+
     script
       include includes/js/app.js
