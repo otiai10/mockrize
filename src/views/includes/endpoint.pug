@@ -10,13 +10,16 @@ case endpoint.method.toUpperCase()
     default
         - var alert = "alert-secondary"
 
-div.alert(role="alert", class=alert)
+div.alert.endpoint(role="alert", class=alert)
     div.row
         div.col-2
             b=endpoint.method.toUpperCase()
-        div.col-10
+        div.col-8
             span=endpoint.path
-    if repository
-        div(data-raw-url=repository.rawURL(endpoint.file), onclick="getRawContent.bind(this)()")="View definition"
-        div
-            a(href=repository.editorURL(endpoint.file), target="_blank")="Go to definition"
+        div.col-1
+            a.action-icon(data-raw-url=repository.rawURL(endpoint.file), onclick="getRawContent.bind(this)()")
+                include svg/code.svg
+        div.col-1
+            a.action-icon(href=repository.editorURL(endpoint.file), target="_blank")
+                include svg/pen.svg
+    div.code-expandable(data-raw-url=repository.rawURL(endpoint.file))

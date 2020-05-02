@@ -1,0 +1,15 @@
+pre.bg-light.code {
+  margin: 16px 0;
+  padding: 16px;
+  border-radius: .25rem;
+  box-shadow: 0 0 1px grey inset;
+  text-shadow: 0 1px white;
+}
+
+div.alert.endpoint {
+  width: 75%;
+}
+
+a.action-icon {
+  cursor: pointer;
+}

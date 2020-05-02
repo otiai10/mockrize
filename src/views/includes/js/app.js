@@ -4,7 +4,8 @@
     if (! target.getAttribute('data-loaded')) {
       const url = target.getAttribute('data-raw-url');
       const text = await (await fetch(url)).text();
-      target.innerHTML = `<pre class="bg-light code"><code>${text}</code></pre>`;
+      const dest = scope.document.querySelector(`div.code-expandable[data-raw-url="${url}"]`);
+      dest.innerHTML = `<pre class="bg-light code"><code>${text}</code></pre>`;
       target.setAttribute('data-loaded', 'true');
     }
   };

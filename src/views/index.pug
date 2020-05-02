@@ -6,9 +6,8 @@ html(lang="en")
     meta(property="og:title", content="Mock API")
     meta(property="og:type", content="website")
     title Mock API
-    //- link(rel='stylesheet', href="css/style.css")
-    script
-      include js/app.js
+    style
+      include includes/css/app.css
     meta(
         name="viewport",
         content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -26,3 +25,5 @@ html(lang="en")
         each endpoint in endpoints
           unless (endpoint.path == "/")
             include includes/endpoint.pug
+    script
+      include includes/js/app.js
