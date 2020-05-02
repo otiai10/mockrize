@@ -1,19 +1,20 @@
 case endpoint.method.toUpperCase()
     when 'GET'
-        - var alert = "alert-primary"
+        - var group = "primary"
     when 'POST'
-        - var alert = "alert-success"
+        - var group = "success"
     when 'PUT'
-        - var alert = "alert-warning"
+        - var group = "warning"
     when 'DELETE'
-        - var alert = "alert-danger"
+        - var group = "danger"
     default
-        - var alert = "alert-secondary"
+        - var group = "secondary"
 
-div.alert.endpoint(role="alert", class=alert)
+
+div.alert.endpoint(role="alert", class=`alert-${group}`)
     div.row
         div.col-2
-            b=endpoint.method.toUpperCase()
+            span.http-method.badge(class=`badge-${group}`)=endpoint.method.toUpperCase()
         div.col-8
             span=endpoint.path
         div.col-1

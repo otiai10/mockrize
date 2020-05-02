@@ -11,6 +11,6 @@ export default class Stream extends Duplex implements NodeJS.WritableStream /*, 
     //     this.push("echo 2000\n\n");
     // }
     public toString(): string {
-        return String(this.__buffer);
+        return String(this.__buffer).trim();
     }
 }

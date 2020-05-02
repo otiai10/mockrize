@@ -5,7 +5,8 @@ import Method from "../method";
 import Endpoint from "../endpoint";
 import JSONEndpoint from '../endpoint/json';
 import JavaScriptEndpoint from '../endpoint/javascript';
-import Repository from '../repository';
+import { createRepository } from '../repository';
+import Config from '../config';
 
 export default class Generator {
 
@@ -24,17 +25,18 @@ export default class Generator {
         return contents.reduce((all, content) => all.concat(content), []);
     }
 
-    private generateIndexHandler(endpoints: Endpoint[], repository?: Repository): Endpoint {
+    private generateIndexHandler(endpoints: Endpoint[], config: Config): Endpoint {
+        const repository = createRepository(config.repository);
         return {
             method: Method.GET, path: '/', file: '/',
             handler: (req, res) => {
-                res.render('index', { endpoints, repository });
+                res.render('index', { endpoints, ...config, repository });
             },
             isValid: () => { return true; },
         } as Endpoint;
     }
 
-    public async generate(repository?: Repository): Promise<Endpoint[]> {
+    public async generate(config: Config): Promise<Endpoint[]> {
         const fileEntries = await this.walk(this.rootDir);
         const endpoints = fileEntries.map(fpath => {
             const ext = path.extname(fpath);
@@ -45,7 +47,7 @@ export default class Generator {
                 return new JSONEndpoint(fpath, this.rootDir);
             }
         }).filter(e => (!!e && e.isValid())) as Endpoint[];
-        endpoints.push(this.generateIndexHandler(endpoints, repository));
+        endpoints.push(this.generateIndexHandler(endpoints, config));
         return endpoints;
     }
 }

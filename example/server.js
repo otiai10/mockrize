@@ -8,6 +8,7 @@ try {
 }
 
 const config = {
+    title: 'Mockrize Example APIs',
     host: process.env.HOST || 'localhost',
     port: process.env.PORT || 4001,
     repository: {
@@ -28,6 +29,8 @@ const constants = {
         constants,
     });
     if (process.env.NODE_ENV !== "test") {
-        app.listen(process.env.PORT || 4001)
+        app.listen(process.env.PORT || 4001, () => {
+            console.log(`http://${config.host}:${config.port}`);
+        })
     }
 })();

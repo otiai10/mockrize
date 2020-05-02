@@ -60,7 +60,7 @@ export class CustomRepository extends Repository {
   }
 }
 
-export function repository(config?: RepositoryConfig): Repository | undefined {
+export function createRepository(config?: RepositoryConfig): Repository | undefined {
   if (!config) {
     return;
   }

@@ -14,4 +14,8 @@
     }
   };
   scope.getRawContent = getRawContent;
+
+  const baseURL = scope.document.querySelector("a#mock-base-url");
+  baseURL.setAttribute('href', location.href);
+  baseURL.innerText = location.href;
 })(window);

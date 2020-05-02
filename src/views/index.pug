@@ -3,9 +3,9 @@ html(lang="en")
   head
     meta(charset="utf-8")
     meta(name="author", content="otiai10")
-    meta(property="og:title", content="Mock API")
+    meta(property="og:title", content=title)
     meta(property="og:type", content="website")
-    title Mock API
+    title=title
     style
       include vendor/bootstrap/bootstrap.min.css
     style
@@ -20,7 +20,20 @@ html(lang="en")
     )
   body
     div.container
-      h1="Mock API"
+      h1=title
+
+      div
+        table.table.table-borderless
+          tbody
+            tr
+              th Repository
+              td
+                a(href=repository.url)= repository.url
+            tr
+              th Base URL
+              td
+                a#mock-base-url
+
       div
         each endpoint in endpoints
           unless (endpoint.path == "/")

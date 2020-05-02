@@ -6,8 +6,12 @@ pre.bg-light.code {
   text-shadow: 0 1px white;
 }
 
-div.alert.endpoint {
-  width: 75%;
+h1 {
+  margin-top: .8rem;
+}
+
+span.http-method {
+  font-size: 1em;
 }
 
 a.action-icon {

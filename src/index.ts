@@ -4,7 +4,6 @@ import path from 'path';
 import Generator from './generator';
 import Options from './options';
 import { ensureConfig } from './config';
-import { repository } from './repository';
 
 export interface MockrizedRequest extends express.Request {
     Mockrize: {
@@ -20,6 +19,7 @@ function ConstantsMiddleware(constants: { [key: string]: string | number } = {})
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 export async function Router(opt: Options): Promise<express.Router> {
     const router = express.Router();
     router.use(ConstantsMiddleware(opt.constants || {}));
@@ -27,14 +27,14 @@ export async function Router(opt: Options): Promise<express.Router> {
         opt.rootDir : path.join(process.cwd(), opt.rootDir);
     const out = opt.out || process.stdout;
     const generator = new Generator(rootDir);
-    const repo = repository(opt.config?.repository);
-    const endpoints = await generator.generate(repo);
+    const endpoints = await generator.generate(opt.config!);
     const list: string[] = [];
     endpoints.map(e => {
         list.push(`${e.method.toUpperCase()}\t${e.path}`);
         (router as any)[e.method.toLowerCase()](e.path, e.handler as express.Handler);
     });
-    out.write(list.join("\n"));
+    out.write("[INFO] Following endpoints are generated.\n")
+    out.write(list.join("\n") + "\n");
     return router;
 }
 
