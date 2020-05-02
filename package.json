@@ -25,6 +25,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
+    "vendor": "make",
     "build": "rm -rf lib && tsc -p ./tsconfig.json && cp -r src/views lib/views",
     "lint": "eslint . --ext .ts",
     "example": "npm run build && node ./example/server.js",
