@@ -4,8 +4,11 @@
     if (! target.getAttribute('data-loaded')) {
       const url = target.getAttribute('data-raw-url');
       let text;
-      try { text = await (await fetch(url)).text(); }
-      catch { return window.open(url); }
+      try {
+        const res = await fetch(url);
+        if (res.status == 203 || res.status >= 400) throw new Error(res.statusText);
+        text = await res.text();
+      } catch { return window.open(url); }
       const dest = scope.document.querySelector(`div.code-expandable[data-raw-url="${url}"]`);
       const pre = scope.document.createElement('pre');
       pre.className = 'bg-light code';
