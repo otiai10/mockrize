@@ -35,13 +35,20 @@ export class GitLabRepository extends Repository {
 
 export class AzureDevOpsRepository extends Repository {
   editorURL(p: string): string {
-    // TODO: implement
-    console.info("[INFO]", "editorURL func of AzureDevOpsRepository is NOT implemented yet.")
-    return p;
+    const url = new URL(this.url);
+    url.searchParams.set("path", path.join("/", this.rootDir, p));
+    return url.toString();
   }
   rawURL(p: string): string {
-    console.info("[INFO]", "rawURL func of AzureDevOpsRepository is NOT implemented yet.")
-    return p;
+    // https://stackoverflow.com/questions/54137998/is-it-possible-to-have-a-link-to-raw-content-of-file-in-azure-devops
+    const [proj, repo] = this.url.split("/_git/");
+    const url = new URL(proj);
+    url.pathname = path.join(url.pathname, "_apis", "sourceProviders", "TfsGit", "filecontents");
+    url.searchParams.set("repository", repo);
+    url.searchParams.set("commitOrBranch", this.branch);
+    url.searchParams.set("api-version", "5.0-preview.1");
+    url.searchParams.set("path", path.join("/", this.rootDir, p));
+    return url.toString();
   }
 }
 
@@ -68,6 +75,8 @@ export function createRepository(config?: RepositoryConfig): Repository | undefi
   switch (u.hostname) {
   case 'github.com':
     return new GitHubRepository(config.url, config.rootDir, config.branch);
+  case 'dev.azure.com':
+    return new AzureDevOpsRepository(config.url, config.rootDir, config.branch);
   default:
     console.error(`[INFO] Unknown repository provider "${u.hostname}", use CustomRepository`);
     return new CustomRepository(config.url);

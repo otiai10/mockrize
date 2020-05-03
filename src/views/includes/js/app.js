@@ -3,7 +3,9 @@
     const target = this;
     if (! target.getAttribute('data-loaded')) {
       const url = target.getAttribute('data-raw-url');
-      const text = await (await fetch(url)).text();
+      let text;
+      try { text = await (await fetch(url)).text(); }
+      catch { return window.open(url); }
       const dest = scope.document.querySelector(`div.code-expandable[data-raw-url="${url}"]`);
       const pre = scope.document.createElement('pre');
       pre.className = 'bg-light code';
