@@ -75,6 +75,8 @@ export function createRepository(config?: RepositoryConfig): Repository | undefi
   switch (u.hostname) {
   case 'github.com':
     return new GitHubRepository(config.url, config.rootDir, config.branch);
+  case 'gitlab.com':
+    return new GitLabRepository(config.url, config.rootDir, config.branch);
   case 'dev.azure.com':
     return new AzureDevOpsRepository(config.url, config.rootDir, config.branch);
   default:
