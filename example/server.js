@@ -10,7 +10,7 @@ try {
 const config = {
     title: 'Mockrize Example APIs',
     host: process.env.HOST || 'localhost',
-    port: process.env.PORT || 4001,
+    port: process.env.PORT || 4002,
     repository: {
         url: 'https://github.com/otiai10/mockrize',
         rootDir: 'example/root',
@@ -29,7 +29,7 @@ const constants = {
         constants,
     });
     if (process.env.NODE_ENV !== "test") {
-        app.listen(process.env.PORT || 4001, () => {
+        app.listen(config.port, () => {
             console.log(`http://${config.host}:${config.port}`);
         })
     }
