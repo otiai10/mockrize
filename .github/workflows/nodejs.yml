@@ -30,3 +30,4 @@ jobs:
     - run: npm test
     - run: npm run test:example
     - run: bash <(curl -s https://codecov.io/bash)
+    - uses: codecov/codecov-action@v1
